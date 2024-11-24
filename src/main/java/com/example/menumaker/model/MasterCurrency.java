@@ -1,42 +1,43 @@
 package com.example.menumaker.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import jakarta.persistence.* ;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+        import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "master_user_roles")
-public class MasterUserRole {
+@Table(name = "master_currency")
+public class MasterCurrency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private UUID gid;
+    private UUID gid = UUID.randomUUID();
 
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(nullable = false, length = 10)
+    private String code;
+
+    @Column
     private String description;
+
+    @Column(name = "created_by")
+    private Integer createdBy;
+
+    @Column(name = "updated_by")
+    private Integer updatedBy;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    // Constructors
-    public MasterUserRole() {
-        this.gid = UUID.randomUUID(); // Default UUID value
-    }
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     // Getters and Setters
     public Long getId() {
@@ -63,12 +64,36 @@ public class MasterUserRole {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Integer getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Integer updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public Boolean getActive() {
@@ -94,17 +119,4 @@ public class MasterUserRole {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-   @Override
-   public String toString() {
-       return "MasterUserRole{" +
-               "id=" + id +
-               ", gid=" + gid +
-               ", name='" + name + '\'' +
-               ", description='" + description + '\'' +
-               ", active=" + active +
-               ", createdAt=" + createdAt +
-               ", updatedAt=" + updatedAt +
-               '}';
-   }
 }

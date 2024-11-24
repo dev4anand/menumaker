@@ -17,13 +17,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-//        List<User> users = userService.getAllUsers();
-//        model.addAttribute("users", users);
-//        log.info("Users: {}", users);
-        model.addAttribute("title", "Welcome to My Spring Boot App");
-        model.addAttribute("message", "This is the home page of your Spring Boot application.");
-        return "home";
+//        model.addAttribute("users", userService.getAllUsers());
+//        model.addAttribute("title", "Welcome to My Spring Boot App");
+//        model.addAttribute("message", "This is the home page of your Spring Boot application.");
+        return "index";
     }
 }
 
