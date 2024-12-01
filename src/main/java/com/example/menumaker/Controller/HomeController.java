@@ -3,17 +3,21 @@ package com.example.menumaker.Controller;
 
 import com.example.menumaker.dto.UserDto;
 import com.example.menumaker.model.MasterUserRole;
+import com.example.menumaker.model.Shop;
 import com.example.menumaker.model.User;
 import com.example.menumaker.repository.MasterUserRoleRepository;
+import com.example.menumaker.repository.ShopRepository;
 import com.example.menumaker.repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +25,9 @@ import java.util.Optional;
 public class HomeController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ShopRepository shopRepository;
 
     @Autowired
     private MasterUserRoleRepository roleRepository;
@@ -40,17 +47,16 @@ public class HomeController {
 
 
         Optional<User> userOptional = userRepository.findOneByUsername(username);
-
+        List<Shop> shops = shopRepository.findAll();
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
             if (BCrypt.checkpw(password, user.getPasswordHash())) {
                 model.addAttribute("message", "Login successful!");
-
                 List<User> roleSpecificUsers = userRepository.findAllByRole_Id(2L);
                 logger.info("Users with role ID 2: {}", roleSpecificUsers);
                 model.addAttribute("usersWithRoleId2", roleSpecificUsers);
-
+                model.addAttribute("shopsList", shops);
                 return "users/dashboard";
             } else {
                 model.addAttribute("error", "Incorrect Username & Password");
@@ -63,108 +69,100 @@ public class HomeController {
     }
 
 
-    @GetMapping("/create-user")
-    public String createUser() {
-        return "users/createuser";
-    }
-
-//    @PostMapping("/signup")
-//    public String handleSignup(@ModelAttribute(name = "signupForm") @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("mobileNumber") String mobileNumber, Model model) {
-//
-//        // Logic to process the user data
-//        System.out.println("email: " + email);
-//        System.out.println("Password: " + password);
-//        System.out.println("Mobile Number: " + mobileNumber);
-//
-//        // Add data to the model if needed
-//        model.addAttribute("message", "User registered successfully!");
-//        try {
-//            // Create a new User object
-//            User user = new User();
-//            user.setUsername(mobileNumber);
-//            user.setEmail(email);
-//            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-//            System.out.println(hashedPassword);
-//            user.setPasswordHash(hashedPassword);
-//            user.setActive(true);
-//            Long roleId = 2L; // Set the desired role ID
-//            MasterUserRole role = roleRepository.findById(roleId)
-//                    .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
-//
-//            // Set the role for the user
-//            user.setRole(role);
-//            // Save the user to the database
-//            userRepository.save(user);
-//            List<User> roleSpecificUsers = userRepository.findAllByRole_Id(2L);
-//            model.addAttribute("usersWithRoleId2", roleSpecificUsers);
-//            return "users/dashboard";
-//
-//        } catch (Exception e) {
-//            // Log the exception (optional, but recommended)
-//            System.err.println("Error saving user to database: " + e.getMessage());
-//
-//            // Add error message to the model
-//            model.addAttribute("error", "An error occurred while registering the user. Please try again.");
-//            // Redirect back to the signup form
-//            return "users/createuser"; // Return to the form with the error message
-//        }
-//    }
-
-    @PostMapping("/edit/{id}")
-    public ResponseEntity<String> editUser(@PathVariable Long id) {
-        // Perform your edit logic here (e.g., fetching or updating the user)
-        return ResponseEntity.ok("User with ID " + id + " has been edited successfully.");
-    }
-
     @PostMapping("/delete-user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id, Model model) {
-        logger.info("User id to delete: {}", id);
-
-        // Check if user exists
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             logger.info("User deleted successfully");
-            return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully."));
+            return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully.", null));
         } else {
             logger.warn("User not found: {}", id);
-            return ResponseEntity.status(404).body(new ApiResponse(false, "User with ID " + id + " not found."));
+            return ResponseEntity.status(404).body(new ApiResponse(false, "User with ID " + id + " not found.", null));
         }
     }
 
-    @PostMapping("/createusers")
+    @PostMapping("/CreateUser")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        logger.info("User  details");
-        logger.info("Users dto: {}", userDto);
         try {
             User user = new User();
             user.setUsername(userDto.getMobile());
             user.setEmail(userDto.getEmail());
             String hashedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
-            System.out.println(hashedPassword);
             user.setPasswordHash(hashedPassword);
             user.setActive(true);
             Long roleId = 2L; // Set the desired role ID
             MasterUserRole role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
-
             user.setRole(role);
             userRepository.save(user);
-            return ResponseEntity.ok(new ApiResponse(true, "User created successfully."));
+            return ResponseEntity.ok(new ApiResponse(true, "User created successfully.", null));
         } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-            return ResponseEntity.status(404).body(new ApiResponse(false, "Cant Create user"));
-
+            return ResponseEntity.status(404).body(new ApiResponse(false, "Cant Create user", null));
         }
     }
 
-    // API response format
+    @PostMapping("/edit-user/{id}")
+    public ResponseEntity<?> editUserModal(@PathVariable Long id) {
+        Optional<User> userDetails = userRepository.findOneById(id);
+        if (userDetails.isPresent()) {
+            logger.info("id: {}", userDetails.get());
+            return ResponseEntity.ok(userDetails.get()); // Directly return user details
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "User not found.", null));
+        }
+    }
+
+    @PostMapping("/UpdateUser/{id}")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable Long id) {
+        logger.info("Updating user with id: {}", id);
+        try {
+            // Retrieve the user by id, and throw exception if not found
+            User user = userRepository.findOneById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+
+            // Set updated user information
+            user.setUsername(userDto.getMobile());
+            user.setEmail(userDto.getEmail());
+
+            // Hash the password
+            String hashedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
+            System.out.println("Hashed Password: " + hashedPassword);
+            user.setPasswordHash(hashedPassword);
+
+            // Set the user as active
+            user.setActive(true);
+
+            // Assign the user role (assuming role ID is fixed here)
+            Long roleId = 2L;
+            MasterUserRole role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
+            user.setRole(role);
+
+            // Save the updated user
+            userRepository.save(user);
+
+            return ResponseEntity.ok(new ApiResponse(true, "User updated successfully.", null));
+        } catch (IllegalArgumentException e) {
+            // Handle specific exceptions like user or role not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, e.getMessage(), null));
+        } catch (Exception e) {
+            // Generic exception handling
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Error updating user", null));
+        }
+    }
+
     static class ApiResponse {
         private boolean success;
         private String message;
+        private Object data;
 
-        public ApiResponse(boolean success, String message) {
+        public ApiResponse(boolean success, String message, Object data) {
             this.success = success;
             this.message = message;
+            this.data = data;
         }
 
         public boolean isSuccess() {
@@ -173,6 +171,10 @@ public class HomeController {
 
         public String getMessage() {
             return message;
+        }
+
+        public Object getData() {
+            return data;
         }
     }
 

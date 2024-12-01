@@ -37,20 +37,45 @@ $(document).ready(function () {
             }
         });
     });
-$("#createUserForm").on("submit", function (e) {
+
+    $('.edit-btn').on('click', function (event) {
+        event.preventDefault();
+        const userId = $(this).data('id');
+
+        $.ajax({
+            url: `/edit-user/${userId}`,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+            },
+            success: function (data) {
+                if (data) {
+                    const editModal = new bootstrap.Modal($("#editModal")[0]);
+                    editModal.show();
+                     $('#editUserForm').data('id', userId);
+                    $("#edituseremail").val(data.email);
+                    $("#editusermobile").val(data.username); // or whatever key corresponds to the mobile number in 'data'
+                }
+            },
+            error: function () {
+                showAlert('An error occurred while fetching the user details.', 'danger');
+            }
+        });
+    });
+
+    $("#createUserForm").on("submit", function (e) {
         e.preventDefault();
-    console.log('123');
-        // Collect form data
         const formData = {
             email: $("#createuseremail").val(),
             mobile: $("#createusermobile").val(),
             password: $("#creteuserpassword").val(),
+            shop: $("#createusershop").val(),
         };
-
         // Send AJAX request
         $.ajax({
             type: "POST",
-            url: "/createusers",
+            url: "/CreateUser",
             contentType: "application/json",
             data: JSON.stringify(formData),
             success: function (data) {
@@ -58,7 +83,38 @@ $("#createUserForm").on("submit", function (e) {
                 if (data.success) {
                     setTimeout(function () {
                         location.reload();
-                    }, 1000); /
+                    }, 1000);
+                }
+            },
+            error: function () {
+                showAlert('An error occurred while deleting the user.', 'danger');
+            },
+        });
+    });
+
+
+
+    $("#editModal").on("submit", function (e) {
+        e.preventDefault();
+        const formData = {
+            email: $("#edituseremail").val(),
+            mobile: $("#editusermobile").val(),
+            password: $("#edituserpassword").val(),
+        };
+            const userId = $('#editUserForm').data('id');
+
+        // Send AJAX request
+        $.ajax({
+            type: "POST",
+            url: `/UpdateUser/${userId}`,
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (data) {
+                showAlert(data.message, data.success ? 'success' : 'danger');
+                if (data.success) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 }
             },
             error: function () {
