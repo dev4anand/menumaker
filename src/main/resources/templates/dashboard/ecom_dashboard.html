@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="body-wrapper" th:fragment="content">
+    <div class="container-fluid mw-100">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
+                <p class="mb-0">This is a sample page</p>
+                <div class="fw-bolder fs-3 text-gray-800 mb-2" th:text="${ user.getUsersName()}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

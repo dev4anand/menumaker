@@ -1,0 +1,132 @@
+<div class="body-wrapper" th:fragment="content">
+    <div class="container-fluid mw-100">
+
+
+        <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+            <div class="card-body px-4 py-3">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <h4 class="fw-semibold mb-8">Store Dashboard</h4>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a class="text-muted text-decoration-none" href="/ecom/dashboard/">Home</a>
+                                </li>
+                                <li class="breadcrumb-item" aria-current="page">Store Dashboard</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center mb-n5">
+                            <img src="../assets/images/breadcrumb/ChatBc.png" alt="modernize-img" class="img-fluid mb-n4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--<div class="card card-xl-stretch">
+            &lt;!&ndash;begin::Header&ndash;&gt;
+            <div class="card-header d-flex justify-content-between align-items-center border-0 mt-4">
+                &lt;!&ndash; Title Section &ndash;&gt;
+                <h3 class="card-title d-flex align-items-center mb-0">
+                    <span class="card-label fw-bolder fs-3 text-info">Store Details</span>
+                </h3>
+
+                &lt;!&ndash; Toolbar Section &ndash;&gt;
+                <div class="card-toolbar text-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add map users">
+                    <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_store">
+                        &lt;!&ndash; Svg Icon &ndash;&gt;
+                        <span class="svg-icon svg-icon-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black"></rect>
+                    <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black"></rect>
+                </svg>
+            </span>
+                        Map Store
+                    </a>
+                </div>
+            </div>
+
+            &lt;!&ndash;end::Header&ndash;&gt;
+            <div class="card-body">
+
+               &lt;!&ndash; <h5 class="card-title fw-semibold mb-4">Store Details</h5>&ndash;&gt;
+
+
+                <div class="table-responsive mb-4 border rounded-1">
+                    <table class="table text-nowrap mb-0 align-middle">
+                        <thead>
+                        <tr class="fw-bolder text-muted">
+                            <th class="min-w-25px">Store Name</th>
+                            <th class="min-w-140px" >District</th>
+                            <th class="min-w-120px" >Mobile Number</th>
+                            <th class="min-w-200px" >email</th>
+                            <th class="min-w-25px text-end">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  th:each="store : ${storeDtos}">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                        <span class="fw-normal" th:text="${store.getStoreName()}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-normal" th:text="${store.getDistrict()}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-normal" th:text="${store.getMobile()}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-normal" th:text="${store.getEmail()}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-end flex-shrink-0">
+                                    <a th:href="@{'/resurvey/survey/view/' + ${store.getGid()} }" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" title="View">
+																					<span class="svg-icon svg-icon-3"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																					    <g stroke="none" stroke-width="1" fill="none">
+																					        <rect x="0" y="0" width="24" height="24"/>
+																					        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.4"/>
+																					        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.6"/>
+																					    </g>
+																					</svg></span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </div>
+        </div>-->
+        <!-- sectionStoreList part page -- store_list_part.html -->
+        <div id="storeListPartPage">
+        <section th:replace="~{store/part/store_list_part :: sectionStoreList}"></section>
+        </div>
+        <!--end::sectionStoreList part page -- store_list_part.html-->
+
+
+        <section th:replace="~{store/modal/store_add_modal :: store_add_modal}"></section>
+
+
+
+    </div>
+
+    <script th:src="@{/assets/libs/jquery/dist/jquery-3.7.1.min.js}"></script>
+    <script  th:src="@{/js/store/store_add.js}"></script>
+</div>
+

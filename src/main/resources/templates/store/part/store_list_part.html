@@ -1,0 +1,89 @@
+
+<section th:fragment="sectionStoreList">
+<div class="card card-xl-stretch">
+    <!--begin::Header-->
+    <div class="card-header d-flex justify-content-between align-items-center border-0 mt-4">
+        <!-- Title Section -->
+        <h3 class="card-title d-flex align-items-center mb-0">
+            <span class="card-label fw-bolder fs-3 text-info">Store Details</span>
+        </h3>
+
+        <!-- Toolbar Section -->
+        <div class="card-toolbar text-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add map users">
+            <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_store">
+                <!-- Svg Icon -->
+                <span class="svg-icon svg-icon-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black"></rect>
+                    <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black"></rect>
+                </svg>
+            </span>
+                Map Store
+            </a>
+        </div>
+    </div>
+
+    <!--end::Header-->
+    <div class="card-body">
+
+        <div th:if="${storeDtos== null || storeDtos.isEmpty()}"
+             class="fw-bolder fs-5 text-center  repbg2 text pt-5 pb-5">No store were found .</div>
+
+        <div class="table-responsive mb-4 border rounded-1"  th:if="${storeDtos != null && !storeDtos.isEmpty()}">
+            <table class="table text-nowrap mb-0 align-middle">
+                <thead>
+                <tr class="fw-bolder text-muted">
+                    <th class="min-w-25px">Store Name</th>
+                    <th class="min-w-140px" >District</th>
+                    <th class="min-w-120px" >Mobile Number</th>
+                    <th class="min-w-200px" >email</th>
+                    <th class="min-w-25px text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="store : ${storeDtos}">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-normal" th:text="${store.getStoreName()}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-normal" th:text="${store.getDistrict()}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-normal" th:text="${store.getMobile()}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-normal" th:text="${store.getEmail()}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-end flex-shrink-0">
+                            <a th:href="@{'/resurvey/survey/view/' + ${store.getGid()} }" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" title="View">
+																					<span class="svg-icon svg-icon-3"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																					    <g stroke="none" stroke-width="1" fill="none">
+																					        <rect x="0" y="0" width="24" height="24"/>
+																					        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.4"/>
+																					        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.6"/>
+																					    </g>
+																					</svg></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+    </div>
+</div>
+</section>
