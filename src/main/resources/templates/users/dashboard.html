@@ -162,13 +162,12 @@
             </section>
 
 
-
-
-
         </div>
     </div>
     <div id="alert-message"
-         style="display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 80%; z-index: 9999;"></div>
+         style="display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 80%; z-index: 9999;">
+
+    </div>
 
 </div>
 
@@ -188,17 +187,19 @@
                     <div class="screen">
                         <div class="screen__content">
                             <h1>Sign Up</h1>
-                            <form id="createUserForm"  class="login" method="post">
+                            <form id="createUserForm" class="login" method="post">
                                 <p th:if="${error}" class="error" th:text="${error}"></p>
                                 <div class="login__field">
                                     <i class="login__icon fas fa-envelope"></i>
-                                    <input autocomplete="off" type="text" id="createuseremail" name="email" class="login__input"
+                                    <input autocomplete="off" type="text" id="createuseremail" name="email"
+                                           class="login__input"
                                            placeholder="Email"
                                            th:value="${email}">
                                 </div>
                                 <div class="login__field">
                                     <i class="login__icon fas fas fa-phone-alt"></i>
-                                    <input autocomplete="off" type="text" id="createusermobile" name="mobileNumber" class="login__input"
+                                    <input autocomplete="off" type="text" id="createusermobile" name="mobileNumber"
+                                           class="login__input"
                                            placeholder="mobileNumber"
                                            th:value="${mobileNumber}">
                                 </div>
@@ -213,7 +214,8 @@
                                 </div>
                                 <div class="login__field">
                                     <i class="login__icon fas fa-lock"></i>
-                                    <input autocomplete="off" type="password" id="creteuserpassword" name="password" class="login__input"
+                                    <input autocomplete="off" type="password" id="creteuserpassword" name="password"
+                                           class="login__input"
                                            placeholder="Password"
                                            th:value="${password}">
                                 </div>
@@ -257,23 +259,24 @@
                                 <p th:if="${error}" class="error" th:text="${error}"></p>
                                 <div class="login__field">
                                     <i class="login__icon fas fa-user"></i>
-                                    <input type="text" id="edituseremail" name="email"  class="login__input"
+                                    <input type="text" id="edituseremail" name="email" class="login__input"
                                            placeholder="Email"
                                            th:value="${email}">
                                 </div>
                                 <div class="login__field">
                                     <i class="login__icon fas fa-user"></i>
-                                    <input type="text" id="editusermobile"  name="mobileNumber" class="login__input"
+                                    <input type="text" id="editusermobile" name="mobileNumber" class="login__input"
                                            placeholder="mobileNumber"
                                            th:value="${mobileNumber}">
                                 </div>
                                 <div class="login__field">
                                     <i class="login__icon fas fa-lock"></i>
-                                    <input type="password" id="edituserpassword" name="password" autocomplete="new-password" class="login__input"
+                                    <input type="password" id="edituserpassword" name="password"
+                                           autocomplete="new-password" class="login__input"
                                            placeholder="Password"
                                            th:value="${password}">
                                 </div>
-                                <button class="button login__submit" >
+                                <button class="button login__submit">
                                     <span class="button__text">Save</span>
                                     <i class="button__icon fas fa-chevron-right"></i>
                                 </button>
