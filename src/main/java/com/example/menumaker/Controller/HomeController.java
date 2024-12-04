@@ -14,10 +14,7 @@ import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -48,6 +45,10 @@ public class HomeController {
 
 
         logger.info("Received login request with username: {} and password: {}", username, password);
+        if ((username == null || username.isEmpty()) && (password == null || password.isEmpty())) {
+            model.addAttribute("error", "Please enter a valid username and password");
+            return "index";
+        }
         Optional<User> userOptional = userRepository.findOneByUsername(username);
 
         if (userOptional.isPresent()) {
@@ -56,7 +57,6 @@ public class HomeController {
                 if (user.getRole().getId() == 1) {
                     List<ShopUser> shopsUser = shopUserRepository.findAll();
                     model.addAttribute("message", "Login successful!");
-//                  logger.info("Users det: {}", user);
                     model.addAttribute("shopsList", shopsUser);
                     return "design/module/sample";
                 } else {
@@ -129,7 +129,7 @@ public class HomeController {
                 userRepository.deleteById(UserId);
                 logger.info("User deleted successfully");
                 return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully.", null));
-            }else{
+            } else {
                 logger.warn("Error finding User: {}", id);
                 return ResponseEntity.status(404).body(new ApiResponse(false, "Error finding User with ID " + id + " not found.", null));
             }
@@ -139,25 +139,7 @@ public class HomeController {
         }
     }
 
-    @PostMapping("/CreateUser")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        try {
-            User user = new User();
-            user.setUsername(userDto.getMobile());
-            user.setEmail(userDto.getEmail());
-            String hashedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
-            user.setPasswordHash(hashedPassword);
-            user.setActive(true);
-            Long roleId = 2L; // Set the desired role ID
-            MasterUserRole role = roleRepository.findById(roleId)
-                    .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
-            user.setRole(role);
-            userRepository.save(user);
-            return ResponseEntity.ok(new ApiResponse(true, "User created successfully.", null));
-        } catch (Exception e) {
-            return ResponseEntity.status(404).body(new ApiResponse(false, "Cant Create user", null));
-        }
-    }
+
     @PostMapping("/edit-user/{id}")
     public ResponseEntity<?> editUserModal(@PathVariable Long id) {
         Optional<ShopUser> optionalUser = shopUserRepository.findOneById(id);
@@ -174,7 +156,7 @@ public class HomeController {
 
             response.put("user", userDetails);
             response.put("shop", shopDetails);
-
+            response.put("gid", user.getGid());
             logger.info("User details: {}", response);
             return ResponseEntity.ok(response);
         } else {
@@ -183,61 +165,37 @@ public class HomeController {
         }
     }
 
-//    @PostMapping("/edit-user/{id}")
-//    public ResponseEntity<?> editUserModal(@PathVariable Long id) {
-//        Optional<ShopUser> details = shopUserRepository.findOneById(id);
-//        logger.info("Updating user with id: {}", id);
-//        if (details.isPresent()) {
-//            ShopUser user = details.get();
-//            var shopId = user.getShop().getName();
-//            var mobileNumber = user.getUser().getUsername();
-//            var email = user.getUser().getEmail();
-//
-//
-//            logger.info("userdetails: {}", user);
-//            return ResponseEntity.ok(details.get()); // Directly return user details
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                    .body(new ApiResponse(false, "User not found.", null));
-//        }
-//    }
-
     @PostMapping("/UpdateUser/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable String id) {
         logger.info("Updating user with id: {}", id);
+        logger.info("Updating userDto with id: {}", userDto);
         try {
-            // Retrieve the user by id, and throw exception if not found
-            User user = userRepository.findOneById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
-
-            // Set updated user information
-            user.setUsername(userDto.getMobile());
-            user.setEmail(userDto.getEmail());
-
-            // Hash the password
-            String hashedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
-            System.out.println("Hashed Password: " + hashedPassword);
-            user.setPasswordHash(hashedPassword);
-
-            // Set the user as active
-            user.setActive(true);
-
-            // Assign the user role (assuming role ID is fixed here)
-            Long roleId = 2L;
-            MasterUserRole role = roleRepository.findById(roleId)
-                    .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
-            user.setRole(role);
-
-            // Save the updated user
-            userRepository.save(user);
-
-            return ResponseEntity.ok(new ApiResponse(true, "User updated successfully.", null));
+            Optional<ShopUser> shopUser = shopUserRepository.findOneByGid(UUID.fromString(id));
+            if (shopUser.isPresent()) {
+                ShopUser user = shopUser.get();
+                Long shopId = user.getShop().getId();
+                Long UserId = user.getUser().getId();
+                Optional<User> userDetails = userRepository.findOneById(UserId);
+                User mainUser = userDetails.get();
+                mainUser.setUsername(userDto.getMobile());
+                mainUser.setEmail(userDto.getEmail());
+                String hashedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
+                mainUser.setPasswordHash(hashedPassword);
+                userRepository.save(mainUser);
+                Optional<Shop> shopDetails = shopRepository.findOneById(shopId);
+                Shop shop = shopDetails.get();
+                shop.setName(userDto.getShopName());
+                shop.setAddress(userDto.getShopAddress());
+                shopRepository.save(shop);
+                return ResponseEntity.ok(new ApiResponse(true, "User updated successfully.", null));
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ApiResponse(false, "Something Went Wrong", null));
+            }
         } catch (IllegalArgumentException e) {
-            // Handle specific exceptions like user or role not found
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(false, e.getMessage(), null));
         } catch (Exception e) {
-             // Generic exception handling
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(false, "Error updating user", null));
         }

@@ -64,40 +64,43 @@
 </head>
 
 <body class="link-sidebar">
-<!-- Preloader -->
-<!-- <div class="preloader">
-    <img src="../assets/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid" />
-</div> -->
 
-<div class="">
-    <div class="authentication-login min-vh-100 bg-body row justify-content-center align-items-center p-4">
-        <div class="auth-max-width col-sm-8 col-md-6 col-xl-7 px-4">
-            <h2 class="mb-1 fs-7 fw-bolder">Welcome to Menu Maker</h2>
-            <form class="login" th:action="@{/dashboard}" th:object="${loginForm}" method="post">
-                <p th:if="${error}" class="error">UserName & Password Incorrect</p>
-                <div class="mb-3">
-                    <label for="inputusername" class="form-label">Username</label>
-                    <!--                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">-->
-                    <input type="text" id="inputusername" name="username" class="form-control"
-                           placeholder="User name / Email"
-                           th:value="${username}">
-
+<div id="main-wrapper" class="auth-customizer-none">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 w-100 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-md-8 col-lg-6 col-xxl-3 auth-card">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <a href="../main/index.html" class="text-nowrap logo-img text-center d-block mb-5 w-100">
+                                <img src="../assets/images/logos/dark-logo.svg" class="dark-logo" alt="Logo-Dark"/>
+<!--                                <img src="../assets/images/logos/light-logo.svg" class="light-logo" alt="Logo-light"/>-->
+                            </a>
+                            <form class="login" th:action="@{/dashboard}" th:object="${loginForm}" method="post">
+                                <p th:if="${error}" class="error">UserName & Password Incorrect</p>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                                    <input type="tel" class="form-control" name="username"  id="exampleInputEmail1"
+                                           aria-describedby="emailHelp" th:value="${username}">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1"  name="password"
+                                           th:value="${password}">
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                </div>
+                                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2">
+                                    Log In Now
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label for="inputPassword" class="form-label">Password</label>
-                    <!--                    <input type="password" class="form-control" id="exampleInputPassword1">-->
-                    <input type="password" id="inputPassword" name="password" class="form-control"
-                           placeholder="Password"
-                           th:value="${password}">
-                </div>
-                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2">
-                    Log In
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-
 
 </body>
 

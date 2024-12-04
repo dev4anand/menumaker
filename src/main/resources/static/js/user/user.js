@@ -37,22 +37,27 @@ $(document).ready(function () {
             }
         });
     });
-    $('.create-user-btn').on('click', function (event) {
-        event.preventDefault();
-        $('#createUserForm').removeClass('d-none');
-        $('#shoplistbutton').addClass('d-none');
-        $('#shopDetailsTable').addClass('d-none');
-        $('#createshopbutton').removeClass('d-none');
+    //            success: function (data) {
+    //                toastr.success(
+    //                    "Successfuly deleted!.",
+    //                    {
+    //                        positionClass: "toastr toast-top-center",
+    //                        containerId: "toast-top-center",
+    //                    }
+    //                );
+    //            },
+    //            error: function () {
+    //                toastr.error(
+    //                    "An error occurred while deleting the user!.",
+    //                    {
+    //                        positionClass: "toastr toast-top-center",
+    //                        containerId: "toast-top-center",
+    //                    }
+    //                );
+    //            }
+    //        });
+    //    });
 
-    });
-    $('.showtable-btn').on('click', function (event) {
-        event.preventDefault();
-        $('#createUserForm').addClass('d-none');
-        $('#shoplistbutton').removeClass('d-none');
-        $('#shopDetailsTable').removeClass('d-none');
-        $('#createshopbutton').addClass('d-none');
-
-    });
 
 
     $('.edit-btn').on('click', function (event) {
@@ -69,19 +74,12 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 if (data) {
-                    $('#shopDetailsTable').addClass('d-none');
-                    $('#shopEditForm').removeClass('d-none');
-                    $('#shoplistbutton').addClass('d-none');
-
-                    $('#editUserForm').data('id', userId);
+                    $('#editShopForm').data('id', data.gid).attr('data-id', data.gid);
                     $("#editusermobile").val(data.user.mobile);
                     $("#edituseremail").val(data.user.email);
                     $("#editshopname").val(data.shop.name);
                     $("#editshopaddress").val(data.shop.address);
                     $("#edituserpassword").val(null);
-
-
-
                 }
             },
             error: function () {
@@ -122,15 +120,16 @@ $(document).ready(function () {
 
 
 
-    $("#editModal").on("submit", function (e) {
+    $("#editShopForm").on("submit", function (e) {
         e.preventDefault();
         const formData = {
             email: $("#edituseremail").val(),
+            shopName: $("#editshopname").val(),
+            shopAddress: $("#editshopaddress").val(),
             mobile: $("#editusermobile").val(),
             password: $("#edituserpassword").val(),
         };
-        const userId = $('#editUserForm').data('id');
-
+        const userId = $(this).data('id') || $(this).attr('data-id');
         // Send AJAX request
         $.ajax({
             type: "POST",
@@ -146,7 +145,7 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                showAlert('An error occurred while deleting the user.', 'danger');
+                showAlert('An error occurred while editing the user.', 'danger');
             },
         });
     });
