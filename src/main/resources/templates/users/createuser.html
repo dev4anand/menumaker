@@ -1,58 +1,64 @@
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <title>CARDLY - Sign Up</title>
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-</head>
-
-<body>
-<div class="container">
-    <div class="screen">
-        <div class="screen__content">
-            <h1>Sign Up</h1>
-
-            <form class="login" th:action="@{/signup}" th:object="${signupForm}" method="post">
-                <p th:if="${error}" class="error" th:text="${error}"></p>
-                <div class="login__field">
-                    <i class="login__icon fas fa-user"></i>
-                    <input type="text" name="email" class="login__input" placeholder="Email"
-                        th:value="${email}">
+<div class="modal fade" id="create-user-modal-lg" tabindex="-1" aria-labelledby="create-user-modal-lg"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="myLargeModalLabel">
+                        Create New Shop
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="login__field">
-                    <i class="login__icon fas fa-user"></i>
-                    <input type="text" name="mobileNumber" class="login__input" placeholder="mobileNumber"
-                        th:value="${mobileNumber}">
+                <div class="modal-body">
+                    <div class="pb-4 authentication-login row justify-content-center align-items-center">
+                        <div class="bg-body col-sm-8 col-md-6 col-xl-7 px-4 pt-2">
+                            <form id="createShopForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="createshopname" class="form-label">Shop Name</label>
+                                        <input type="text" class="form-control" id="createshopname"
+                                            aria-describedby="textHelp">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="createshopaddress" class="form-label">Shop
+                                            Address</label>
+                                        <input type="text" class="form-control" id="createshopaddress"
+                                            aria-describedby="textHelp">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="createusermobile" class="form-label">Mobile
+                                            Number</label>
+                                        <input type="tel" class="form-control" id="createusermobile"
+                                            aria-describedby="textHelp">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="createuseremail" class="form-label">Email
+                                            Address</label>
+                                        <input id="createuseremail" type="email" class="form-control"
+                                            aria-describedby="emailHelp">
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="creteuserpassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="creteuserpassword">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2">
+                                    <span class="button__text">Create Restaurant</span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="login__field">
-                    <i class="login__icon fas fa-lock"></i>
-                    <input type="password" name="password" class="login__input" placeholder="Password"
-                        th:value="${password}">
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger-subtle text-danger  waves-effect text-start"
+                        data-bs-dismiss="modal">
+                        Close
+                    </button>
                 </div>
-                <button class="button login__submit">
-                    <span class="button__text">Create User</span>
-                    <i class="button__icon fas fa-chevron-right"></i>
-                </button>
-            </form>
-        </div>
-        <div class="screen__background">
-            <span class="screen__background__shape screen__background__shape4"></span>
-            <span class="screen__background__shape screen__background__shape3"></span>
-            <span class="screen__background__shape screen__background__shape2"></span>
-            <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
         </div>
     </div>
-</div>
-
-</body>
-
-</html>
-
-
-
-
-

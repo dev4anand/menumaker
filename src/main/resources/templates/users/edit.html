@@ -1,18 +1,59 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit User</title>
-</head>
-<body>
-    <h1>Edit User</h1>
-    <form th:action="@{/users/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
-        <label for="name">Name:</label>
-        <input type="text" th:field="*{name}" id="name" />
-        <label for="email">Email:</label>
-        <input type="email" th:field="*{email}" id="email" />
-        <button type="submit">
-            <button type="submit">Update</button>
-        </form>
-    </body>
-    </html>
-  
+<div class="modal fade" id="edit-btn-modal-lg" tabindex="-1" aria-labelledby="edit-btn-modal-lg" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h4 class="modal-title">
+                    Edit Details
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="pb-4 authentication-login row justify-content-center align-items-center">
+                    <form id="editShopForm" data-id="">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editshopname" class="form-label">Shop Name</label>
+                                <input type="text" class="form-control" id="editshopname"
+                                    aria-describedby="textHelp">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editshopaddress" class="form-label">Shop
+                                    Address</label>
+                                <input type="text" class="form-control" id="editshopaddress"
+                                    aria-describedby="textHelp">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editusermobile" class="form-label">Mobile
+                                    Number</label>
+                                <input type="tel" class="form-control" id="editusermobile"
+                                    aria-describedby="textHelp">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="edituseremail" class="form-label">Email
+                                    Address</label>
+                                <input id="edituseremail" type="email" class="form-control"
+                                    aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="edituserpassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="edituserpassword">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger  waves-effect text-start"
+                    data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

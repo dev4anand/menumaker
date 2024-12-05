@@ -36,8 +36,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "index";
-
+        return "auth/login";
     }
 
     @PostMapping("/dashboard")
@@ -47,7 +46,7 @@ public class HomeController {
         logger.info("Received login request with username: {} and password: {}", username, password);
         if ((username == null || username.isEmpty()) && (password == null || password.isEmpty())) {
             model.addAttribute("error", "Please enter a valid username and password");
-            return "index";
+            return "auth/login";
         }
         Optional<User> userOptional = userRepository.findOneByUsername(username);
 
@@ -58,17 +57,17 @@ public class HomeController {
                     List<ShopUser> shopsUser = shopUserRepository.findAll();
                     model.addAttribute("message", "Login successful!");
                     model.addAttribute("shopsList", shopsUser);
-                    return "design/module/sample";
+                    return "users/dashboard";
                 } else {
-                    return "design/module/sample";
+                    return "users/dashboard";
                 }
             } else {
                 model.addAttribute("error", "Incorrect Username & Password");
-                return "index";
+                return "auth/login";
             }
         } else {
             model.addAttribute("error", "User not found!");
-            return "index";
+            return "auth/login";
         }
     }
 
