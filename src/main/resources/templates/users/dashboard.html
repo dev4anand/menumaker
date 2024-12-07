@@ -94,11 +94,11 @@
                                             <td th:text="${shop.user.username}">
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger delete-btn" th:data-id="${shop.id}">
+                                                <button class="btn btn-danger delete-btn" th:data-gid="${shop.gid}">
                                                     <i class="fas fa-trash-alt"></i> Delete
                                                 </button>
                                                 <button id="editShopButton" class="edit-btn btn btn-rounded btn-primary"
-                                                    data-bs-toggle="modal" th:data-id="${shop.id}"
+                                                    data-bs-toggle="modal" th:data-gid="${shop.gid}"
                                                     data-bs-target="#edit-btn-modal-lg">
                                                     <i class="fas fa-user-plus"></i>Edit
                                                 </button>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="pb-4 authentication-login row justify-content-center align-items-center">
-                        <form id="editShopForm" data-id="">
+                        <form id="editShopForm" data-gid="">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="editshopname" class="form-label">Shop Name</label>

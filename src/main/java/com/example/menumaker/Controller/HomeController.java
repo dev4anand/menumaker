@@ -112,36 +112,33 @@ public class HomeController {
     }
 
 
-    @PostMapping("/delete-user/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id, Model model) {
-        Optional<ShopUser> shopUser = shopUserRepository.findOneById(id);
-        if (shopUserRepository.existsById(id)) {
-            if (shopUser.isPresent()) {
-                ShopUser user = shopUser.get();
-                Long shopId = user.getShop().getId();
-                Long UserId = user.getUser().getId();
-                Optional<User> userDetails = userRepository.findOneById(UserId);
-                Optional<ShopUser> shopUserDetails = shopUserRepository.findOneById(id);
-                Optional<Shop> shopDetails = shopRepository.findOneById(shopId);
-                shopUserRepository.deleteById(id);
-                shopRepository.deleteById(shopId);
-                userRepository.deleteById(UserId);
-                logger.info("User deleted successfully");
-                return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully.", null));
-            } else {
-                logger.warn("Error finding User: {}", id);
-                return ResponseEntity.status(404).body(new ApiResponse(false, "Error finding User with ID " + id + " not found.", null));
-            }
+    @PostMapping("/delete-user/{gid}")
+    public ResponseEntity<?> deleteUser(@PathVariable String gid, Model model) {
+        Optional<ShopUser> shopUser = shopUserRepository.findOneByGid(UUID.fromString(gid));
+        if (shopUser.isPresent()) {
+            ShopUser user = shopUser.get();
+            Long shopId = user.getShop().getId();
+            Long UserId = user.getUser().getId();
+            Long shpUsr = user.getId();
+
+            Optional<User> userDetails = userRepository.findOneById(UserId);
+            Optional<Shop> shopDetails = shopRepository.findOneById(shopId);
+            shopUserRepository.deleteById(shpUsr);
+            shopRepository.deleteById(shopId);
+            userRepository.deleteById(UserId);
+            logger.info("User deleted successfully");
+            return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully.", null));
+
         } else {
-            logger.warn("User not found: {}", id);
-            return ResponseEntity.status(404).body(new ApiResponse(false, "User with ID " + id + " not found.", null));
+            logger.warn("User not found: {}", gid);
+            return ResponseEntity.status(404).body(new ApiResponse(false, "User with Gid " + gid + " not found.", null));
         }
     }
 
 
-    @PostMapping("/edit-user/{id}")
-    public ResponseEntity<?> editUserModal(@PathVariable Long id) {
-        Optional<ShopUser> optionalUser = shopUserRepository.findOneById(id);
+    @PostMapping("/edit-user/{gid}")
+    public ResponseEntity<?> editUserModal(@PathVariable String gid) {
+        Optional<ShopUser> optionalUser = shopUserRepository.findOneByGid(UUID.fromString(gid));
         if (optionalUser.isPresent()) {
             ShopUser user = optionalUser.get();
             Map<String, Object> response = new HashMap<>();
@@ -164,12 +161,12 @@ public class HomeController {
         }
     }
 
-    @PostMapping("/UpdateUser/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable String id) {
-        logger.info("Updating user with id: {}", id);
+    @PostMapping("/UpdateUser/{gid}")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable String gid) {
+        logger.info("Updating user with id: {}", gid);
         logger.info("Updating userDto with id: {}", userDto);
         try {
-            Optional<ShopUser> shopUser = shopUserRepository.findOneByGid(UUID.fromString(id));
+            Optional<ShopUser> shopUser = shopUserRepository.findOneByGid(UUID.fromString(gid));
             if (shopUser.isPresent()) {
                 ShopUser user = shopUser.get();
                 Long shopId = user.getShop().getId();

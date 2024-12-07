@@ -1,21 +1,8 @@
-//function showContent(type) {
-//    // Hide both divs initially
-//    document.getElementById('userContent').style.display = 'none';
-//    document.getElementById('restaurantContent').style.display = 'none';
-//
-//    // Show the relevant div
-//    if (type === 'user') {
-//        document.getElementById('userContent').style.display = 'block';
-//    } else if (type === 'restaurant') {
-//        document.getElementById('restaurantContent').style.display = 'block';
-//    }
-//}
-
 
 $(document).ready(function () {
     $('.delete-btn').on('click', function (event) {
         event.preventDefault();
-        const userId = $(this).data('id');
+        let userId = $(this).data('gid');
 
         $.ajax({
             url: `/delete-user/${userId}`,
@@ -37,35 +24,12 @@ $(document).ready(function () {
             }
         });
     });
-    //            success: function (data) {
-    //                toastr.success(
-    //                    "Successfuly deleted!.",
-    //                    {
-    //                        positionClass: "toastr toast-top-center",
-    //                        containerId: "toast-top-center",
-    //                    }
-    //                );
-    //            },
-    //            error: function () {
-    //                toastr.error(
-    //                    "An error occurred while deleting the user!.",
-    //                    {
-    //                        positionClass: "toastr toast-top-center",
-    //                        containerId: "toast-top-center",
-    //                    }
-    //                );
-    //            }
-    //        });
-    //    });
-
-
 
     $('.edit-btn').on('click', function (event) {
         event.preventDefault();
-        const userId = $(this).data('id');
-
+        let userGid = $(this).data('gid');
         $.ajax({
-            url: `/edit-user/${userId}`,
+            url: `/edit-user/${userGid}`,
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +38,7 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 if (data) {
-                    $('#editShopForm').data('id', data.gid).attr('data-id', data.gid);
+                    $('#editShopForm').data('gid', data.gid).attr('data-gid', data.gid);
                     $("#editusermobile").val(data.user.mobile);
                     $("#edituseremail").val(data.user.email);
                     $("#editshopname").val(data.shop.name);
@@ -129,7 +93,7 @@ $(document).ready(function () {
             mobile: $("#editusermobile").val(),
             password: $("#edituserpassword").val(),
         };
-        const userId = $(this).data('id') || $(this).attr('data-id');
+        let userId = $(this).data('gid') || $(this).attr('data-gid');
         // Send AJAX request
         $.ajax({
             type: "POST",
