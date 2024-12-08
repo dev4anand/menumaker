@@ -57,7 +57,7 @@ public class HomeController {
                     List<ShopUser> shopsUser = shopUserRepository.findAll();
                     model.addAttribute("message", "Login successful!");
                     model.addAttribute("shopsList", shopsUser);
-                    return "users/dashboard";
+                    return "admin/dashboard";
                 } else {
                     return "users/dashboard";
                 }
