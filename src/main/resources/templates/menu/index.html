@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/food.png}" />
+    <!-- <link rel="stylesheet" th:href="@{/assets/css/styles.css}" /> -->
+    <!-- <title th:text="${title}"></title> -->
+    <title>Salkara Hotel Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' id='dina-bootstrap-css-css' th:href="@{/css/bootstrap/css/bootstrap.min.css}" type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='dina-font-awesome-css' th:href="@{/css/fontawesome/css/font-awesome.min.css}"
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='dina-style-css-css' th:href="@{/css/style.css}" type='text/css' media='all' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
+
+</head>
+
+
+<body class="body-header1">
+    <header id="header-1">
+
+        <!--headerWrap-->
+    </header>
+
+    <section class="topSingleBkg topPageBkg">
+        <div class="item-content-bkg">
+            <div class="item-img"></div>
+
+            <div class="inner-desc">
+                <!-- <img width="300" height="100" src="images/salkara.png" /> -->
+                <h1 class="post-title single-post-title">SALKARA</h1>
+                <span class="post-subtitle">RESTAURANT | CAFETERIA | JUICE HUB</span>
+            </div>
+        </div>
+    </section>
+    <section class="menu-1col-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div th:each="entry : ${categorizedMenu}">
+                        <div class="categ-name">
+                            <h2 th:text="${entry.key}"></h2> <!-- Category Name -->
+                        </div>
+                        <div class="menu-holder menu-1col">
+                            <div th:each="menuItem : ${entry.value}"
+                                 class="menu-post clearfix checkbox-container"
+                                 th:attr="data-price=${menuItem.price}, data-name=${menuItem.name}, data-id=${menuItem.id}">
+                                <div class="menu-post-desc">
+                                    <h4>
+                        <span class="menu-title">
+                            <input type="checkbox" class="menu-checkbox"
+                                   th:id="'menu-checkbox-' + ${menuItem.id}">
+                            <label th:for="'menu-checkbox-' + ${menuItem.id}">
+                                <span th:text="${menuItem.name}"></span>
+                                <span class="quantitycountdiv"></span>
+                            </label>
+                        </span>
+                                        <span class="menu-dots"></span>
+                                        <span class="menu-price" th:text="'₹' + ${menuItem.price}"></span> <!-- Price -->
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--                <div th:each="entry : ${categorizedMenu}">-->
+<!--                    <h2 th:text="${entry.key}"></h2>-->
+<!--                    <div th:each="menuItem : ${entry.value}">-->
+<!--                        <p>Name: <span th:text="${menuItem.name}"></span></p>-->
+<!--                        <p>Price: ₹<span th:text="${menuItem.price}"></span></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <!--col-md-10-->
+            </div>
+            <!--row-->
+        </div>
+        <!--container-->
+    </section>
+
+<!--    <section class="menu-1col-content">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-10 offset-md-1">-->
+<!--                    <div class="categ-name">-->
+<!--                        <h2>Beverages & Breads</h2>-->
+<!--                    </div>-->
+
+<!--                    <div class="menu-holder menu-1col">-->
+<!--                        <div class="menu-post clearfix checkbox-container" data-price="10" data-name="Tea" data-id="1">-->
+<!--                            <div class="menu-post-desc ">-->
+<!--                                <h4><span class="menu-title"><input type="checkbox" class="menu-checkbox"><label-->
+<!--                                            for="menu-checkbox"> Tea <span-->
+<!--                                                class="quantitycountdiv"></span></label></span><span-->
+<!--                                        class="menu-dots"></span><span class="menu-price">₹10</span></h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="menu-post clearfix checkbox-container" data-price="15" data-name="Coffee"-->
+<!--                            data-id="3">-->
+<!--                            <div class="menu-post-desc">-->
+<!--                                <h4>-->
+<!--                                    <span class="menu-title">-->
+<!--                                        <input type="checkbox" class="menu-checkbox" id="coffee-checkbox">-->
+<!--                                        <label for="coffee-checkbox"> Coffee <span-->
+<!--                                                class="quantitycountdiv"></span></label>-->
+<!--                                    </span>-->
+<!--                                    <span class="menu-dots"></span>-->
+<!--                                    <span class="menu-price">₹15</span>-->
+<!--                                </h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                &lt;!&ndash;col-md-10&ndash;&gt;-->
+<!--            </div>-->
+<!--            &lt;!&ndash;row&ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash;container&ndash;&gt;-->
+<!--    </section>-->
+    <!-- /MAIN WRAP CONTENT -->
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+
+            <!-- ROW -->
+            <div class="row alignc">
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h5>OPEN HOURS:</h5>
+                        <p>Everyday: 5:30 AM - 11:00 PM
+                            <!-- <br/>
+                            Saturday - Sunday: 9 AM - 1 PM -->
+                        </p>
+                    </div>
+                </div>
+                <!-- FOOTER COLUMN 1 -->
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h5>ADDRESS:</h5>
+                        <a style="color: #252525;" href="https://maps.app.goo.gl/8wHRJQMN4WffryWU9" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                            </svg>
+                            SALKARA Restaurant<br> Vithura<br>
+
+                        </a>
+                    </div>
+                </div>
+
+                <!-- FOOTER COLUMN 2 -->
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h5>Contact:</h5>
+                        <a style="color: #252525;" href="tel:+919020637099">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                            </svg> 9020637099 </a>
+                        <br>
+                        <a style="color: #252525;" href="tel:+917356794579">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                            </svg> 7356794579</a>
+                    </div>
+                </div>
+
+                <!-- FOOTER COLUMN 3 -->
+
+
+            </div>
+            <!-- /ROW -->
+
+            <!-- FOOTER SOCIAL -->
+            <ul class="footer-social">
+
+            </ul>
+            <a href="https://cardly.in/starvithura/" target="_blank">
+                <div class="copyright">
+
+                    Designed &#038; Developed by Star Creations
+
+
+                </div>
+            </a>
+            <!-- /FOOTER COPYRIGHT -->
+            <div class="freesearch" style="width: 100%;">
+                <div class="search-box">
+                    <input class="search-text" id="search-input" type="text" placeholder="Search...">
+                    <div class="search-btn" onclick="scrollToMatch()">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER SCROLL UP -->
+            <div class="scrollup ">
+                <a class="scrolltop" href="#">
+                    <i class="fas fa-chevron-up"></i>
+                </a>
+            </div>
+
+            <div class="total-section">
+                <button id="proceedBtn" class="viewdetbtn p-1" data-bs-toggle="modal"
+                    data-bs-target="#order-summary-modal-lg">
+                    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M21.9292 6.76001L18.5592 20.29C18.3192 21.3 17.4192 22 16.3792 22H3.23915C1.72915 22 0.649169 20.5199 1.09917 19.0699L5.30916 5.55005C5.59916 4.61005 6.46917 3.95996 7.44917 3.95996H19.7492C20.6992 3.95996 21.4892 4.53997 21.8192 5.33997C22.0092 5.76997 22.0492 6.26001 21.9292 6.76001Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10"></path>
+                            <path opacity="0.4" d="M16 22H20.78C22.07 22 23.08 20.91 22.99 19.62L22 6" stroke="#ffffff"
+                                stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M9.67969 6.38L10.7197 2.06006" stroke="#ffffff" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M16.3809 6.38977L17.3209 2.0498" stroke="#ffffff" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path opacity="0.4" d="M7.69922 12H15.6992" stroke="#ffffff" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path opacity="0.4" d="M6.69922 16H14.6992" stroke="#ffffff" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                    </svg>
+
+
+                    <span id="totalAmountWithLabel"> </span>
+                </button>
+            </div>
+            <!-- </button> -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="order-summary-modal-lg" tabindex="-1" aria-labelledby="order-summary-modal-lg"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="categ-name-two">
+                                <h2>Order Summary</h2>
+                            </div>
+                            <button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container p-0">
+
+                                <div class="menu-post clearfix">
+                                    <div class="menu-post-desc">
+                                        <div id="selectedItemsList"></div>
+                                        <h5 style="text-align: center;">Total Amount : <span id="finalAmount">0</span>
+                                        </h5>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-danger">*Prices may vary locally. For accurate pricing, please consult
+                                our table service</p>
+                        </div>
+                        <div class="modal-footer" style="display: flex;justify-content: center;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            <button type="button" onclick="clearStorage()" class="btn btn-primary">Clear the
+                                Selection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GED109S1GN"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/jquery-migrate.min.js}"></script>
+    <script th:src="@{/css/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{/css/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.easing.min.js}"></script>
+    <script th:src="@{/js/jquery.fitvids.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/owl-carousel/owl.carousel.min.js}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script th:src="@{/js/init.js}"></script>
+
+
+</body>
+
+</html>

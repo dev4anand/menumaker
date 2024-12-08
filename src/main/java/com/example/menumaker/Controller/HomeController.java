@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.*;
 
 @Controller
@@ -23,7 +22,7 @@ public class HomeController {
 
     @Autowired
     private ShopRepository shopRepository;
-
+    
     @Autowired
     private ShopUserRepository shopUserRepository;
 

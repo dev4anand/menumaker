@@ -23,6 +23,9 @@ public class MenuItem {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Column(name = "menu_category", nullable = false, length = 255)
+    private String menuCategory;
+
     @Column
     private String description;
 
@@ -78,6 +81,13 @@ public class MenuItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMenuCategory() {
+        return menuCategory;
+    }
+    public void setMenuCategory(String menuCategory) {
+        this.menuCategory = menuCategory;
     }
 
     public String getDescription() {
@@ -143,4 +153,17 @@ public class MenuItem {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", menuCategory='" + menuCategory + '\'' +
+                ", price=" + price +
+                ", isVeg=" + isVeg +
+                ", active=" + active +
+                '}';
+    }
+
 }
