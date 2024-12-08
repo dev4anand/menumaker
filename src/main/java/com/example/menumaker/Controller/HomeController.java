@@ -22,7 +22,7 @@ public class HomeController {
 
     @Autowired
     private ShopRepository shopRepository;
-    
+
     @Autowired
     private ShopUserRepository shopUserRepository;
 

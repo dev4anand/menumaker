@@ -1,30 +1,95 @@
 
 $(document).ready(function () {
+    // $('.delete-btn').on('click', function (event) {
+    //     event.preventDefault();
+    //     let userId = $(this).data('gid');
+
+    //     $.ajax({
+    //         url: `/delete-user/${userId}`,
+    //         type: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+    //         },
+    //         success: function (data) {
+    //             showAlert(data.message, data.success ? 'success' : 'danger');
+    //             if (data.success) {
+    //                 setTimeout(function () {
+    //                     location.reload();
+    //                 }, 1000);
+    //             }
+    //         },
+    //         error: function () {
+    //             showAlert('An error occurred while deleting the user.', 'danger');
+    //         }
+    //     });
+    // });
     $('.delete-btn').on('click', function (event) {
         event.preventDefault();
         let userId = $(this).data('gid');
 
-        $.ajax({
-            url: `/delete-user/${userId}`,
-            type: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-            },
-            success: function (data) {
-                showAlert(data.message, data.success ? 'success' : 'danger');
-                if (data.success) {
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }
-            },
-            error: function () {
-                showAlert('An error occurred while deleting the user.', 'danger');
+        // Show SweetAlert confirmation dialog before proceeding
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            // If user confirms, proceed with the delete action
+            if (result.isConfirmed) {
+                // Show loading SweetAlert before the AJAX call starts
+                Swal.fire({
+                    title: 'Deleting user...',
+                    text: 'Please wait while we delete the user.',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                });
+
+                // AJAX request to delete the user
+                $.ajax({
+                    url: `/delete-user/${userId}`,
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+                    },
+                    success: function (data) {
+                        // Show success or error SweetAlert message after AJAX call
+                        Swal.fire({
+                            title: data.success ? 'Success!' : 'Error!',
+                            text: data.message,
+                            icon: data.success ? 'success' : 'error',
+                            timer: 2000, // Auto-close after 2 seconds
+                            didClose: () => {
+                                if (data.success) {
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            }
+                        });
+                    },
+                    error: function () {
+                        // Show error message if AJAX fails
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while deleting the user.',
+                            icon: 'error',
+                            timer: 2000, // Auto-close after 2 seconds
+                        });
+                    }
+                });
             }
         });
     });
 
+    
     $('.edit-btn').on('click', function (event) {
         event.preventDefault();
         let userGid = $(this).data('gid');
