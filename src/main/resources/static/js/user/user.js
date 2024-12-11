@@ -1,29 +1,6 @@
 
 $(document).ready(function () {
-    // $('.delete-btn').on('click', function (event) {
-    //     event.preventDefault();
-    //     let userId = $(this).data('gid');
-
-    //     $.ajax({
-    //         url: `/delete-user/${userId}`,
-    //         type: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-    //         },
-    //         success: function (data) {
-    //             showAlert(data.message, data.success ? 'success' : 'danger');
-    //             if (data.success) {
-    //                 setTimeout(function () {
-    //                     location.reload();
-    //                 }, 1000);
-    //             }
-    //         },
-    //         error: function () {
-    //             showAlert('An error occurred while deleting the user.', 'danger');
-    //         }
-    //     });
-    // });
+    
     $('.delete-btn').on('click', function (event) {
         event.preventDefault();
         let userId = $(this).data('gid');

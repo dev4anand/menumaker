@@ -26,7 +26,8 @@ public class MenuController {
         int shopId = 15;
         List<MenuItem> menuList = menuItemRepository.findAllByShopId(shopId);
         Map<String, List<MenuItem>> categorizedMenu = menuList.stream()
-                .collect(Collectors.groupingBy(MenuItem::getMenuCategory));
+                .collect(Collectors.groupingBy(menuItem -> menuItem.getShopMenuCategory().getName()));
+
         model.addAttribute("categorizedMenu", categorizedMenu);
         logger.info("Categorized Menu: {}", categorizedMenu);
         return "menu/index";

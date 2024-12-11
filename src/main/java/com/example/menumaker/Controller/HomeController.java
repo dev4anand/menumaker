@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -25,6 +26,9 @@ public class HomeController {
 
     @Autowired
     private ShopUserRepository shopUserRepository;
+
+    @Autowired
+    private MenuItemRepository menuItemRepository;
 
     @Autowired
     private MasterUserRoleRepository roleRepository;
@@ -51,6 +55,7 @@ public class HomeController {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+
             if (BCrypt.checkpw(password, user.getPasswordHash())) {
                 if (user.getRole().getId() == 1) {
                     List<ShopUser> shopsUser = shopUserRepository.findAll();
@@ -58,7 +63,25 @@ public class HomeController {
                     model.addAttribute("shopsList", shopsUser);
                     return "admin/dashboard";
                 } else {
-                    return "users/dashboard";
+                    Optional<ShopUser> shopUser = shopUserRepository.findOneByUser(user);
+                    if (shopUser.isPresent()) {
+                        Long shopId = shopUser.get().getId();
+                        logger.info("shop: {}", shopId);
+
+                        List<MenuItem> menuList = menuItemRepository.findAllByShopId(shopId.intValue());
+                        // Grouping by the name of the ShopCategory
+                        Map<String, List<MenuItem>> categorizedMenu = menuList.stream()
+                                .collect(Collectors.groupingBy(menuItem -> menuItem.getShopMenuCategory().getName()));
+
+                        model.addAttribute("categorizedMenu", categorizedMenu);
+//                        List<MenuItem> menuItem = menuItemRepository.findAllByShopId(shopId.intValue());
+//                        logger.info("menuItem data: {}", menuItem);
+//                        model.addAttribute("menuItem", menuItem);
+                        return "users/dashboard";
+                    }else{
+                        model.addAttribute("error", "Invalid User");
+                        return "auth/login";
+                    }
                 }
             } else {
                 model.addAttribute("error", "Incorrect Username & Password");

@@ -20,11 +20,12 @@ public class MenuItem {
     @JoinColumn(name = "shop_id", referencedColumnName = "id", nullable = false)
     private Shop shop;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_menu_category", referencedColumnName = "id", nullable = false)
+    private ShopCategory shopMenuCategory;
+
     @Column(nullable = false, length = 255)
     private String name;
-
-    @Column(name = "menu_category", nullable = false, length = 255)
-    private String menuCategory;
 
     @Column
     private String description;
@@ -75,19 +76,20 @@ public class MenuItem {
         this.shop = shop;
     }
 
+    public ShopCategory getShopMenuCategory() {
+        return shopMenuCategory;
+    }
+
+    public void setShopMenuCategory(ShopCategory shopMenuCategory) {
+        this.shopMenuCategory = shopMenuCategory;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMenuCategory() {
-        return menuCategory;
-    }
-    public void setMenuCategory(String menuCategory) {
-        this.menuCategory = menuCategory;
     }
 
     public String getDescription() {
@@ -154,16 +156,16 @@ public class MenuItem {
         this.updatedAt = updatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "MenuItem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", menuCategory='" + menuCategory + '\'' +
-                ", price=" + price +
-                ", isVeg=" + isVeg +
-                ", active=" + active +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "MenuItem{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", price=" + price +
+//                ", menucategory=" + shopMenuCategory.getName() +
+//                ", isVeg=" + isVeg +
+//                ", active=" + active +
+//                '}';
+//    }
 
 }
